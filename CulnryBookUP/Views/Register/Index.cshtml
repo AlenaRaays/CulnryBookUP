@@ -1,0 +1,68 @@
+﻿@{
+    @model IEnumerable<CulnryBookUP.Models.User>
+}
+
+<link rel="stylesheet" href="~/css/register.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <!-- шапка с японским вайбом -->
+            <div class="brand-organic">
+                <p>стань частью кулинарной книги</p>
+            </div>
+
+            <!-- форма регистрации с четырьмя полями: name, login, password, email -->
+            <form method="post" action="/Register/Index">
+                <!-- поле NAME -->
+                <div class="input-group">
+                    <label class="input-label" for="name">имя</label>
+                    <input name="UserName" type="text" id="name" class="input-field" placeholder="Введите имя" required>
+                </div>
+
+                <!-- поле LOGIN -->
+                <div class="input-group">
+                    <label class="input-label" for="login">логин</label>
+                    <input name="Login" type="text" id="login" class="input-field" placeholder="Введите логин" required>
+                </div>
+
+                <!-- поле PASSWORD -->
+                <div class="input-group">
+                    <label class="input-label" for="password">пароль</label>
+                    <input name="Password" type="password" id="password" class="input-field" placeholder="***********" required>
+                    <div class="input-hint">минимум 8 символов</div>
+                </div>
+
+                <!-- поле EMAIL -->
+                <div class="input-group">
+                    <label class="input-label" for="email">email</label>
+                    <input name="Email" type="email" id="email" class="input-field" placeholder="yandex или gmail, что выберешь ты?" required>
+                </div>
+
+                <!-- галочка согласия -->
+                <div class="terms-row">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox"> <span>я принимаю <a href="#" class="terms-link">условия использования</a> и <a href="#" class="terms-link">политику</a></span>
+                    </label>
+                </div>
+
+                <!-- кнопка регистрации -->
+                <button type="submit" class="register-button">создать аккаунт</button>
+
+            </form>
+
+            <!-- разделитель -->
+            <div class="separator">
+                <span class="separator-line"></span>
+                <span>уже есть аккаунт?</span>
+                <span class="separator-line"></span>
+            </div>
+
+            <!-- ссылка на вход -->
+            <div class="login-prompt">
+                <a href="~/Account/Index" class="login-link">войти в существующий</a>
+            </div>
+        </div>
+    </div>
+</body>

@@ -12,40 +12,28 @@ namespace CulnryBookUP.Controllers
         {
             _context = context;
         }
-        
+
         public IActionResult Index()
         {
-            var _users = _context.Users.Include(u => u.Role).ToList();
-            return View(_users);
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public IActionResult Index(LoginModel model, string login, string password)
         {
             var _users = _context.Users.ToList();
 
-            User user = null;
-            foreach (var u in _users)
-            {
-                if (u.Login == model.login)
-                {
-                    user = u;
-                    break;
-                }
-            }
+            User user = _users.FirstOrDefault(x => x.Login == model.login && x.Password == model.password);
 
-            if (user != null && user.Password == model.password)
+            if (user != null && user.Login == model.login && user.Password == model.password)
             {
-                HttpContext.Session.SetString("UserId", user.IdUser.ToString());
-                HttpContext.Session.SetString("UserName", user.UserName.ToString());
-                return RedirectToAction("Index", "Home");
+                return Redirect("~/Recipe/Index");
             }
             else
             {
                 ViewBag.Error = "Неверный догин или пароль";
                 return View(model);
             }
-        }
-        
+        } 
     }
 }

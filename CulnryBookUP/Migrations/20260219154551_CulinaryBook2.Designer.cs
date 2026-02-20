@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CulnryBookUP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260219092716_CulinaryBookhhhhhh222")]
-    partial class CulinaryBookhhhhhh222
+    [Migration("20260219154551_CulinaryBook2")]
+    partial class CulinaryBook2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,53 @@ namespace CulnryBookUP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CulnryBookUP.Models.Category", b =>
+                {
+                    b.Property<int>("IdCategory")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"));
+
+                    b.Property<string>("NameCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdCategory");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
+                {
+                    b.Property<int>("IdRecipe")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRecipe"));
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CookingTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecipeDescr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecipeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdRecipe");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("Recipes");
+                });
 
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>
                 {
@@ -75,6 +122,17 @@ namespace CulnryBookUP.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
+                {
+                    b.HasOne("CulnryBookUP.Models.Category", "Category")
+                        .WithMany("Recipes")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("CulnryBookUP.Models.User", b =>
                 {
                     b.HasOne("CulnryBookUP.Models.Role", "Role")
@@ -84,6 +142,11 @@ namespace CulnryBookUP.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Category", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>

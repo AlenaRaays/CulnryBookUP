@@ -1,0 +1,230 @@
+﻿body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    padding-top: 80px; /* Отступ для фиксированного навбара */
+}
+
+/* Карточка рецепта */
+.recipe-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+    .recipe-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    }
+
+/* Заголовок карточки с градиентом */
+.recipe-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+    .recipe-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+.category-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+}
+
+/* Тело карточки */
+.recipe-body {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.recipe-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Время приготовления */
+.cooking-time {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #667eea;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+    .cooking-time i {
+        margin-right: 8px;
+    }
+
+/* Кнопка "Смотреть рецепт" */
+.btn-view {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+    .btn-view:hover {
+        transform: scale(1.05);
+        color: white;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+/* Панель поиска */
+.search-panel {
+    background: white;
+    border-radius: 60px;
+    padding: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+    .search-panel .form-control {
+        border: none;
+        border-radius: 60px 0 0 60px;
+        padding: 15px 25px;
+        font-size: 1.1rem;
+    }
+
+        .search-panel .form-control:focus {
+            box-shadow: none;
+        }
+
+    .search-panel .btn-search {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 60px;
+        padding: 15px 30px;
+        font-weight: 600;
+        border: none;
+    }
+
+        .search-panel .btn-search:hover {
+            transform: scale(1.02);
+        }
+
+/* Фильтр категорий */
+.category-filter {
+    margin-bottom: 30px;
+}
+
+    .category-filter .btn {
+        border-radius: 50px;
+        margin: 5px;
+        padding: 10px 20px;
+        transition: all 0.3s;
+    }
+
+        .category-filter .btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+/* Заголовок страницы */
+.page-title {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+    .page-title h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .page-title p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+/* Если рецептов нет */
+.no-recipes {
+    background: white;
+    border-radius: 20px;
+    padding: 60px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+    .no-recipes i {
+        font-size: 5rem;
+        color: #667eea;
+        margin-bottom: 20px;
+    }
+
+    .no-recipes h3 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .no-recipes p {
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+.btn-add-recipe {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Анимация загрузки */
+.loading {
+    text-align: center;
+    color: white;
+    padding: 50px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin: 20px auto;
+}
+
+@@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

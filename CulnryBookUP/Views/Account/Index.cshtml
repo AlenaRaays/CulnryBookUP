@@ -1,7 +1,8 @@
 ﻿@{
-    @model IEnumerable<CulnryBookUP.Models.User>
+    @model IEnumerable<CulnryBookUP.Models.LoginModel>
 }
 <link rel="stylesheet" href="~/css/form.css"/>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
 
 <body>
     <div class="login-container">
@@ -10,15 +11,15 @@
                 <p>японская кулинарная книга</p>
             </div>
 
-            <form method="post">
+            <form method="post" action="/Account/Index">
                 <div class="input-group">
                     <label class="input-label" for="login">логин</label>
-                    <input type="text" id="login" class="input-field" placeholder="Введите логин" required>
+                    <input type="text" id="login" name="login" class="input-field" placeholder="Введите логин" required>
                 </div>
 
                 <div class="input-group">
                     <label class="input-label" for="password">пароль</label>
-                    <input type="password" id="password" class="input-field" placeholder="***********" required>
+                    <input type="password" id="password" name="password" class="input-field" placeholder="***********" required>
                 </div>
 
                 <div class="flex-row">
@@ -39,36 +40,8 @@
 
             <div class="signup-prompt">
                 ещё нет аккаунта?
-                <a href="#" class="signup-link">создать </a>
+                <a href="~/Register/Index" class="signup-link">создать </a>
             </div>
         </div>
     </div>
-
-    <h2>Clients</h2>
-
-    <table class="table-bordered">
-        <thead>
-            <tr>
-                <th>IdUser</th>
-                <th>UserName</th>
-                <th>Login</th>
-                <th>Password</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.IdUser</td>
-                    <td>@item.UserName</td>
-                    <td>@item.Login</td>
-                    <td>@item.Password</td>
-                    <td>@item.Email</td>
-                    <td>@item.Role?.RoleName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
 </body>

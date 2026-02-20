@@ -11,9 +11,8 @@ namespace CulnryBookUP.Models
         public string Login { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        [ForeignKey("RoleID")]
-        public int RoleID { get; set; }
-        public virtual Role? Role { get; set; }
+        [ForeignKey("RoleID")] public int RoleID { get; set; }
+        public virtual Role Role { get; set; }
 
         public User() { }
 

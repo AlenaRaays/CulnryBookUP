@@ -5,7 +5,7 @@
 namespace CulnryBookUP.Migrations
 {
     /// <inheritdoc />
-    public partial class CulinaryBookhhhhhh : Migration
+    public partial class CulinaryBook : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

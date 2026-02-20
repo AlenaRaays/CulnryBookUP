@@ -1,5 +1,6 @@
 ﻿using CulnryBookUP.Models;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace CulnryBookUP.Data
 {
@@ -9,14 +10,20 @@ namespace CulnryBookUP.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Настройка связи между User и Role
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role)
                 .WithMany(r => r.Users)
                 .HasForeignKey(u => u.RoleID);
+            modelBuilder.Entity<Recipe>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.Recipes)
+                .HasForeignKey(x=>x.CategoryID);
         }
     } 
 }

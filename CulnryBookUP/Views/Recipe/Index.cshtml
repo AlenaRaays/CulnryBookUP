@@ -5,3 +5,61 @@
 <link rel="stylesheet" href="~/css/recipe.css" />
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
+<body>
+    <div class="recipes-container">
+        <div class="recipes-card">
+            <!-- шапка как на страницах входа/регистрации -->
+            <div class="brand-organic">
+                <p>книга рецептов</p>
+            </div>
+
+            <!-- панель с действием (добавить новый рецепт) -->
+            <div class="action-bar">
+                <button class="add-button" onclick="alert('📝 форма добавления нового рецепта')">+ новый рецепт</button>
+            </div>
+
+
+            <div class="recipes-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>название</th>
+                            <th>описание</th>
+                            <th>категория</th>
+                            <th>время (мин)</th>
+                            <th></th> <!-- для действий -->
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if(Model != null && Model.Any())
+                        {
+                            @foreach (var r in Model)
+                            {
+                                <tr>
+                                    <td><strong>@r.RecipeName</strong></td>
+                                    <td>@r.RecipeDescr</td>
+                                    <td>@r.Category.NameCategory</td>
+                                    <td>@r.CookingTime</td>
+                                </tr>
+                            }
+                        }
+                        else{
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 2rem;">
+                                    🍙 Рецептов пока нет. Добавьте первый рецепт!
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <span>всего рецептов: @(Model?.Count() ?? 0)</span>
+            </div>
+        </div>
+
+    </div>
+</body>

@@ -1,17 +1,22 @@
 ﻿using CulnryBookUP.Data;
 using CulnryBookUP.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace CulnryBookUP.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public AccountController(ApplicationDbContext context)
+        private readonly ILogger _logger;
+        public AccountController(ApplicationDbContext context,ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
+
 
         public IActionResult Index()
         {
@@ -27,12 +32,11 @@ namespace CulnryBookUP.Controllers
 
             if (user != null && user.Login == model.login && user.Password == model.password)
             {
-                return Redirect("~/Recipe/Index");
+                return Json(new {success = true});
             }
             else
             {
-                ViewBag.Error = "Неверный догин или пароль";
-                return View(model);
+                return Json(new { success = false });
             }
         } 
     }

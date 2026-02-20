@@ -11,7 +11,7 @@
                 <p>японская кулинарная книга</p>
             </div>
 
-            <form method="post" action="/Account/Index">
+            <form id="loginForm" method="post" action="/Account/Index">
                 <div class="input-group">
                     <label class="input-label" for="login">логин</label>
                     <input type="text" id="login" name="login" class="input-field" placeholder="Введите логин" required>
@@ -31,6 +31,36 @@
 
                 <button type="submit" class="login-button">войти</button>
             </form>
+
+            <script>
+                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                    e.preventDefault(); 
+
+                    var formData = new FormData(this);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/Account/Index', true);
+
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                alert('Добро пожаловать');
+                                window.location.href = '/Recipe/Index';
+                            } else {
+                                alert('Неправильный логин или пароль');
+                                document.getElementById('login').classList.add('input-field-error');
+                                document.getElementById('password').classList.add('input-field-error');
+                            }
+                        } else {
+                            alert('Ошибка сервера');
+                        }
+                    };
+
+                    xhr.send(formData);
+                });
+            </script>
 
             <div class="separator">
                 <span class="separator-line"></span>

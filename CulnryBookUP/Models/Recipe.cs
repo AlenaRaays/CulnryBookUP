@@ -12,6 +12,14 @@ namespace CulnryBookUP.Models
         public virtual Category Category { get; set; }
         [Required] public int CookingTime { get; set; }
 
+        public Recipe() { }
 
+        public Recipe(string recipeName, string recipeDescr, int? categoryID, int cookingTime)
+        {
+            RecipeName = recipeName;
+            RecipeDescr = recipeDescr;
+            CategoryID = categoryID;
+            CookingTime = cookingTime;
+        }
     }
 }

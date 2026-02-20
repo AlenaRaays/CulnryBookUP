@@ -1,230 +1,227 @@
-﻿body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #ece8e0;
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background-image: radial-gradient(circle at 20% 30%, rgba(210, 180, 140, 0.08) 0px, transparent 20%), radial-gradient(circle at 90% 70%, rgba(160, 130, 90, 0.05) 0px, transparent 30%);
 }
 
-.main-container {
-    padding-top: 80px; /* Отступ для фиксированного навбара */
+.recipes-container {
+    width: 100%;
+    max-width: 1100px;
 }
 
-/* Карточка рецепта */
-.recipe-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    height: 100%;
+/* карточка-обёртка для всей страницы (единый стиль) */
+.recipes-card {
+    background-color: rgba(255, 251, 240, 0.9);
+    backdrop-filter: blur(2px);
+    border-radius: 32px 32px 28px 28px;
+    box-shadow: 0 18px 35px -12px rgba(90, 60, 30, 0.25), 0 0 0 1px rgba(170, 140, 100, 0.2) inset, 0 0 0 2px rgba(255, 245, 225, 0.5) inset;
+    border: 1px solid rgba(150, 120, 80, 0.15);
+    transition: box-shadow 0.2s ease;
+}
+
+    .recipes-card:hover {
+        box-shadow: 0 22px 40px -15px rgba(80, 55, 25, 0.3), 0 0 0 1px rgba(150, 115, 75, 0.25) inset, 0 0 0 2px rgba(250, 235, 200, 0.7) inset;
+    }
+
+/* шапка как на страницах входа/регистрации */
+.brand-organic {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
-    .recipe-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+.icon-bowl {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+    filter: drop-shadow(2px 4px 6px rgba(110, 70, 15, 0.1));
+    opacity: 0.9;
+}
+
+.brand-organic h1 {
+    font-size: 2.2rem;
+    font-weight: 360;
+    letter-spacing: 0.02em;
+    color: #3d5a45;
+    margin-bottom: 0.2rem;
+    font-family: 'Times New Roman', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
+    text-shadow: 1px 2px 3px rgba(160, 120, 60, 0.1);
+}
+
+.brand-organic p {
+    font-size: 1rem;
+    color: #7f6e5f;
+    letter-spacing: 0.3px;
+    background: rgba(215, 195, 170, 0.25);
+    padding: 0.3rem 1.8rem;
+    border-radius: 40px;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(180, 150, 115, 0.3);
+    font-style: italic;
+}
+
+/* панель с кнопкой добавления (как дополнительный элемент управления) */
+.action-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.8rem;
+}
+
+.add-button {
+    background: #6d8f72;
+    border: none;
+    padding: 0.7rem 1.8rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 450;
+    color: #f9f6ea;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px -6px #3b4e33, 0 2px 0 0 #506b48 inset;
+    border: 1px solid #618357;
+    text-shadow: 0 1px 2px #34502b;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+    .add-button:hover {
+        background: #5c7a5c;
+        box-shadow: 0 8px 14px -6px #2e4028, 0 3px 0 0 #3b5e3b inset;
+        transform: translateY(-1px);
     }
 
-/* Заголовок карточки с градиентом */
-.recipe-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    position: relative;
-}
-
-    .recipe-header h3 {
-        margin: 0;
-        font-size: 1.5rem;
-        font-weight: 600;
+    .add-button:active {
+        transform: translateY(2px);
+        box-shadow: 0 4px 8px -4px #344b2d, 0 1px 0 0 #3b5e3b inset;
     }
 
-.category-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255,255,255,0.2);
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    backdrop-filter: blur(5px);
+/* сама таблица — простая, прозрачная, органичная */
+.recipes-table-wrapper {
+    overflow-x: auto;
+    border-radius: 24px;
+    background: rgba(245, 240, 230, 0.4);
+    padding: 0.2rem;
+    box-shadow: inset 0 2px 6px rgba(150, 120, 70, 0.1), 0 4px 12px rgba(100, 70, 30, 0.1);
 }
 
-/* Тело карточки */
-.recipe-body {
-    padding: 20px;
-    flex-grow: 1;
-}
-
-.recipe-description {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Время приготовления */
-.cooking-time {
-    display: inline-block;
-    background: #f0f0f0;
-    padding: 8px 20px;
-    border-radius: 50px;
-    color: #667eea;
-    font-weight: 600;
+table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: 0.95rem;
+    color: #3f3a32;
+    min-width: 700px;
 }
 
-    .cooking-time i {
-        margin-right: 8px;
-    }
+/* заголовки как наклейки васи */
+th {
+    text-align: left;
+    padding: 1.2rem 1rem 0.8rem 1.5rem;
+    font-weight: 450;
+    color: #4a5f41;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 0.8rem;
+    background: transparent;
+    border-bottom: 2px solid #dccbb8;
+}
 
-/* Кнопка "Смотреть рецепт" */
-.btn-view {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 25px;
-    font-weight: 600;
-    transition: all 0.3s;
+td {
+    padding: 1rem 1rem 1rem 1.5rem;
+    border-bottom: 1px dashed #d4c5b2;
+    background-color: rgba(255, 250, 240, 0.4);
+}
+
+/* последняя строка без границы */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* эффект наведения — как будто прикасаешься к рисовой бумаге */
+tbody tr:hover td {
+    background-color: rgba(225, 215, 195, 0.3);
+    transition: background-color 0.2s;
+}
+
+/* ячейки с действиями (просмотр, редакт) */
+.action-cell {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.action-link {
+    color: #7d8f70;
     text-decoration: none;
-    display: inline-block;
-    margin-top: 15px;
+    font-size: 0.9rem;
+    border-bottom: 1px dotted #c2b09b;
+    padding-bottom: 1px;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
 }
 
-    .btn-view:hover {
-        transform: scale(1.05);
-        color: white;
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    .action-link:hover {
+        color: #3b5a37;
+        border-bottom: 1px solid #7c9a6c;
     }
 
-/* Панель поиска */
-.search-panel {
-    background: white;
-    border-radius: 60px;
-    padding: 5px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom: 40px;
+/* декоративные японские разделители */
+.japanese-accent {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 2rem 0 0.5rem;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    color: #7c8e6f;
 }
 
-    .search-panel .form-control {
-        border: none;
-        border-radius: 60px 0 0 60px;
-        padding: 15px 25px;
-        font-size: 1.1rem;
-    }
-
-        .search-panel .form-control:focus {
-            box-shadow: none;
-        }
-
-    .search-panel .btn-search {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 60px;
-        padding: 15px 30px;
-        font-weight: 600;
-        border: none;
-    }
-
-        .search-panel .btn-search:hover {
-            transform: scale(1.02);
-        }
-
-/* Фильтр категорий */
-.category-filter {
-    margin-bottom: 30px;
-}
-
-    .category-filter .btn {
-        border-radius: 50px;
-        margin: 5px;
-        padding: 10px 20px;
-        transition: all 0.3s;
-    }
-
-        .category-filter .btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
-        }
-
-/* Заголовок страницы */
-.page-title {
-    text-align: center;
-    color: white;
-    margin-bottom: 40px;
-}
-
-    .page-title h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .page-title p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-    }
-
-/* Если рецептов нет */
-.no-recipes {
-    background: white;
-    border-radius: 20px;
-    padding: 60px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-    .no-recipes i {
-        font-size: 5rem;
-        color: #667eea;
-        margin-bottom: 20px;
-    }
-
-    .no-recipes h3 {
-        color: #333;
-        margin-bottom: 15px;
-    }
-
-    .no-recipes p {
-        color: #666;
-        margin-bottom: 25px;
-    }
-
-.btn-add-recipe {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 15px 40px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-}
-
-/* Анимация загрузки */
-.loading {
-    text-align: center;
-    color: white;
-    padding: 50px;
-}
-
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255,255,255,0.3);
+.wasabi-dot {
+    width: 6px;
+    height: 6px;
+    background: #b3a68f;
     border-radius: 50%;
-    border-top-color: white;
-    animation: spin 1s ease-in-out infinite;
-    margin: 20px auto;
+    display: inline-block;
+    margin: 0 4px;
+    opacity: 0.3;
 }
 
-@@keyframes spin {
-    to {
-        transform: rotate(360deg);
+/* "подвал" внутри карточки */
+.table-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    color: #ab9c88;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    gap: 1rem;
+}
+
+    .table-footer span {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+/* простая адаптация */
+@media (max-width: 700px) {
+    .recipes-card {
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .brand-organic h1 {
+        font-size: 1.8rem;
     }
 }

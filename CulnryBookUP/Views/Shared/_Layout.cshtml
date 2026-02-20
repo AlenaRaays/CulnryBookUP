@@ -13,92 +13,23 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <body>
-                <!-- Навбар (вставьте ваш существующий навбар) -->
-
-                <div class="main-container">
-                    <div class="container">
-                        <!-- Заголовок страницы -->
-                        <div class="page-title">
-                            <h1><i class="bi bi-book-half"></i> Кулинарная книга</h1>
-                            <p>Вкусные рецепты на каждый день</p>
-                        </div>
-
-                        <!-- Панель поиска -->
-                        <div class="row justify-content-center mb-4">
-                            <div class="col-md-8">
-                                <form method="get" class="search-panel">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="searchString"
-                                               placeholder="Поиск рецептов..." value="@ViewBag.SearchString">
-                                        <button type="submit" class="btn-search">
-                                            <i class="bi bi-search"></i> Найти
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- Фильтр по категориям -->
-                        <div class="category-filter text-center">
-                            <a href="/" class="btn btn-outline-light @(ViewBag.SelectedCategory == null ? "active" : "")">
-                                Все
-                            </a>
-                            @foreach (var category in ViewBag.Categories)
-                            {
-                                <a href="/?categoryId=@category.IdCategory"
-                                   class="btn btn-outline-light @(ViewBag.SelectedCategory == category.IdCategory ? "active" : "")">
-                                    @category.CategoryName
-                                </a>
-                            }
-                        </div>
-
-                        <!-- Сетка рецептов -->
-                        @if (!Model.Any())
-                        {
-                            <div class="no-recipes">
-                                <i class="bi bi-emoji-frown"></i>
-                                <h3>Рецептов не найдено</h3>
-                                <p>Попробуйте изменить параметры поиска или добавьте новый рецепт</p>
-                                <a href="/Recipe/Create" class="btn-add-recipe">
-                                    <i class="bi bi-plus-circle"></i> Добавить рецепт
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row g-4">
-                                @foreach (var recipe in Model)
-                                {
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="recipe-card">
-                                            <div class="recipe-header">
-                                                <h3>@recipe.RecipeName</h3>
-                                                <span class="category-badge">
-                                                    <i class="bi bi-tag"></i> @recipe.Category?.CategoryName
-                                                </span>
-                                            </div>
-                                            <div class="recipe-body">
-                                                <p class="recipe-description">@recipe.RecipeDescr</p>
-
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span class="cooking-time">
-                                                        <i class="bi bi-clock"></i> @recipe.CookingTime мин
-                                                    </span>
-
-                                                    <a href="/Home/Details/@recipe.IdRecipe" class="btn-view">
-                                                        <i class="bi bi-eye"></i> Смотреть
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UPP</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
-            </body>
+            </div>
         </nav>
     </header>
     <div class="container">

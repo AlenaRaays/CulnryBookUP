@@ -13,10 +13,39 @@ namespace CulnryBookUP.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string categoryId)
         {
-            var recipes = _context.Recipes.Include(x => x.Category).ToList();
-            return View(recipes);
+            ViewBag.CurrentCategory = categoryId;
+            ViewBag.Categories = _context.Categories.ToList();
+
+            var recipes = _context.Recipes.Include(x => x.Category).AsQueryable();
+
+            if (!string.IsNullOrEmpty(categoryId) && categoryId != "all")
+            {
+                int id = int.Parse(categoryId);
+                recipes = recipes.Where(r => r.CategoryID == id);
+            }
+
+            return View(recipes.ToList());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RecipeDetails(int id)
+        {
+            var recipeDetails = await _context.Recipes
+                .Include(x => x.Category)
+                .Include(x => x.CookingSteps)
+                .Include(x => x.Image)
+                .Include(x => x.RecipeIngredients)
+                    .ThenInclude(x => x.Ingredients)
+                .FirstOrDefaultAsync(x => x.IdRecipe == id);
+
+            if (recipeDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View("RecipeDetails", recipeDetails);
         }
     }
 }

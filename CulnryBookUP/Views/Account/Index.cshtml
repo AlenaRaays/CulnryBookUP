@@ -46,8 +46,8 @@
                             
                             var response = JSON.parse(xhr.responseText);
                             if (response.success) {
-                                alert('Добро пожаловать');
                                 window.location.href = '/Recipe/Index';
+                                alert('Вход выполнен!');
                             } else {
                                 alert('Неправильный логин или пароль');
                                 document.getElementById('login').classList.add('input-field-error');

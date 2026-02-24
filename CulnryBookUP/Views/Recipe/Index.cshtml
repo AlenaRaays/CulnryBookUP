@@ -1,6 +1,5 @@
-﻿@{
-    @model IEnumerable<CulnryBookUP.Models.Recipe>
-}
+﻿@model IEnumerable<CulnryBookUP.Models.Recipe>
+
 
 <link rel="stylesheet" href="~/css/recipe.css" />
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -14,10 +13,32 @@
             </div>
 
             <!-- панель с действием (добавить новый рецепт) -->
-            <div class="action-bar">
+@*             <div class="action-bar">
                 <button class="add-button" onclick="alert('📝 форма добавления нового рецепта')">+ новый рецепт</button>
-            </div>
+            </div> *@
 
+            <div class="filter-sort-panel">
+                <div class="filter-group">
+                    <label for="category-filter" class="filter-label">категория</label>
+                    <div class="custom-select-wrapper">
+                        <form method="get" action="@Url.Action("Index", "Recipe")" class="filter-sort-panel">
+                            <div class="filter-group">
+                                <label for="category-filter" class="filter-label">категория</label>
+                                <div class="custom-select-wrapper">
+                                    <select id="category-filter" name="categoryId" class="organic-select" onchange="this.form.submit()">
+                                        <option value="">все категории</option>
+                                        <!-- !!!!!!!!!!!!!!!! -->
+                                        @foreach (var cat in ViewBag.Categories)
+                                        {
+                                            <option value="@cat.Id" selected="@(ViewBag.CurrentCategory == cat.Id.ToString())">@cat.NameCategory</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div class="recipes-table-wrapper">
                 <table>
@@ -41,17 +62,19 @@
                                     <td>@r.RecipeDescr</td>
                                     <td>@r.Category.NameCategory</td>
                                     <td>@r.CookingTime</td>
+                                    <td class="action-cell">
+                                        <a class="action-link" asp-controller="Recipe" asp-action="RecipeDetails" asp-route-id="@r.IdRecipe" asp-route-category="@r.CategoryID">открыть</a>
+                                    </td>
                                 </tr>
                             }
                         }
                         else{
                             <tr>
                                 <td colspan="5" style="text-align: center; padding: 2rem;">
-                                    🍙 Рецептов пока нет. Добавьте первый рецепт!
+                                    Рецептов пока нет. Добавьте первый рецепт!
                                 </td>
                             </tr>
                         }
-
                     </tbody>
                 </table>
             </div>

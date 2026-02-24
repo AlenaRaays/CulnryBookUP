@@ -7,10 +7,10 @@ namespace CulnryBookUP.Models
     public class User
     {
         [Key] public int IdUser { get; set; }
-        public string UserName { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        [Required (ErrorMessage = "Имя обязательно"), StringLength(50, MinimumLength = 3)] public string UserName { get; set; }
+        [Required(ErrorMessage = "Логин обязателен"), StringLength(50, MinimumLength = 3)] public string Login { get; set; }
+        [Required(ErrorMessage = "Пароль обязателен"), StringLength(50, MinimumLength = 8)] public string Password { get; set; }
+        [EmailAddress(ErrorMessage = "Некорректный email")] public string Email { get; set; }
         [ForeignKey("RoleID")] public int RoleID { get; set; }
         public virtual Role Role { get; set; }
 
@@ -30,6 +30,4 @@ namespace CulnryBookUP.Models
         }
 
     }
-
-
 }

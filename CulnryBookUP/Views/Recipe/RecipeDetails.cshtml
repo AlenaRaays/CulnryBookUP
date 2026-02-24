@@ -1,0 +1,105 @@
+﻿@{
+    @model CulnryBookUP.Models.Recipe
+}
+
+<link rel="stylesheet" href="~/css/recipedetails.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<body>
+    <div class="recipe-detail-container">
+        <div class="recipe-detail-card">
+            <!-- шапка с навигацией и действиями -->
+            <div class="detail-header">
+                <a href="~/Recipe/Index" class="back-link">назад</a>
+                <div class="action-buttons">
+@*                     <button class="edit-button" onclick="alert('✎ редактировать рецепт')">✎ редактировать</button>
+                    <button class="delete-button" onclick="alert('🗑 удалить рецепт (требуется подтверждение)')">🗑 удалить</button>
+ *@                </div>
+            </div>
+
+            <!-- ===== ОСНОВНАЯ ИНФОРМАЦИЯ ===== -->
+
+            <div class="recipe-title-section">
+                <div class="recipe-name">
+                    @Model.RecipeName
+                </div>
+                <div class="recipe-meta">
+                    <div class="meta-item"><strong>категория:</strong>
+                        @Model.Category.NameCategory
+                    </div>
+                    <div class="meta-item"><strong>время:</strong>
+                        @Model.CookingTime
+                    </div>
+                </div>
+            </div>
+
+            <!-- заглушка для изображения (вы можете заменить на <img>) -->
+            <div class="recipe-image-frame">
+                @if(Model.ImageID == null)
+                {
+                    <div class="recipe-image-placeholder">
+                        <span>фото рецепта</span>
+                    </div>
+                }
+                else
+                {
+                    <img src="~/pictures/@Model.Image.ImagePath"/>
+                }
+                <div class="image-caption">
+                    <span>Готовое блюдо: @Model.RecipeName</span>
+                </div>
+            </div>
+
+            <!-- сетка: ингредиенты + детали -->
+            <div class="recipe-detail-grid">
+                <!-- левая колонка: ингредиенты -->
+                <div class="ingredients-section">
+                    <h3 class="section-title">ингредиенты</h3>
+                    <ul class="ingredients-list">
+                        @foreach (var r in Model.RecipeIngredients)
+                        {
+                            <li>@r.Ingredients.IngredientName <span class="ingredient-amount">@r.Quantity г</span></li>
+                        }
+                    </ul>
+                    <!-- примечание от автора (может быть динамическим) -->
+                    <div class="author-note">
+                        ✎ совет: используйте свежесваренный рис и слегка смочите руки водой, чтобы не прилипал.
+                    </div>
+                </div>
+
+                <!-- правая колонка: детали (параметры) -->
+                <div class="details-section">
+                    <h3 class="section-title">о блюде</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">кухня</span>
+                        <span class="detail-value">японская </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">порции</span>
+                        <span class="detail-value">12 @Model.RecipeName</span>
+                    </div>
+                    <!-- дополнительный блок "от автора" -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="color:#6d7f5f; font-size:0.9rem; background: rgba(180, 165, 135, 0.1); padding: 0.8rem; border-radius: 20px;">
+                            <span style="display: block; margin-bottom: 0.3rem;">🍙 ひとこと:</span>
+                            «Идеально для бэнто — даже холодными онигири очень вкусные»
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- пошаговый рецепт (инструкции) -->
+            <div class="instructions-section">
+                <h3 class="section-title" style="border-left-color: #c09b7a;">приготовление</h3>
+                @foreach (var r in Model.CookingSteps)
+                {
+                    <div class="instructions-step">
+                        <div class="step-number">@r.StepNumber</div>
+                        <div class="step-text">@r.StepDescription</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+

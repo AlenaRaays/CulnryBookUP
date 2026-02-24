@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CulnryBookUP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260220081854_CulinaryBook4")]
-    partial class CulinaryBook4
+    [Migration("20260224102816_CulinaryBook")]
+    partial class CulinaryBook
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,67 @@ namespace CulnryBookUP.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("CulnryBookUP.Models.CookingStep", b =>
+                {
+                    b.Property<int>("StepID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StepID"));
+
+                    b.Property<string>("StepDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StepNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idRecipe")
+                        .HasColumnType("int");
+
+                    b.HasKey("StepID");
+
+                    b.HasIndex("idRecipe");
+
+                    b.ToTable("CookingSteps");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Image", b =>
+                {
+                    b.Property<int>("ImageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
+
+                    b.Property<int>("IdRecipe")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ImageID");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Ingredients", b =>
+                {
+                    b.Property<int>("IngredientID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientID"));
+
+                    b.Property<string>("IngredientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IngredientID");
+
+                    b.ToTable("Ingredients");
+                });
+
             modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
                 {
                     b.Property<int>("IdRecipe")
@@ -55,6 +116,9 @@ namespace CulnryBookUP.Migrations
                     b.Property<int>("CookingTime")
                         .HasColumnType("int");
 
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
                     b.Property<string>("RecipeDescr")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -67,7 +131,35 @@ namespace CulnryBookUP.Migrations
 
                     b.HasIndex("CategoryID");
 
+                    b.HasIndex("ImageID");
+
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.RecipeIngredients", b =>
+                {
+                    b.Property<int>("RecipeIngredientID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeIngredientID"));
+
+                    b.Property<int>("IntgredientID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idRecipe")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeIngredientID");
+
+                    b.HasIndex("IntgredientID");
+
+                    b.HasIndex("idRecipe");
+
+                    b.ToTable("RecipeIngredients");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>
@@ -121,6 +213,17 @@ namespace CulnryBookUP.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CulnryBookUP.Models.CookingStep", b =>
+                {
+                    b.HasOne("CulnryBookUP.Models.Recipe", "Recipe")
+                        .WithMany("CookingSteps")
+                        .HasForeignKey("idRecipe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
                 {
                     b.HasOne("CulnryBookUP.Models.Category", "Category")
@@ -129,7 +232,34 @@ namespace CulnryBookUP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CulnryBookUP.Models.Image", "Image")
+                        .WithMany("Recipes")
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.RecipeIngredients", b =>
+                {
+                    b.HasOne("CulnryBookUP.Models.Ingredients", "Ingredients")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("IntgredientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CulnryBookUP.Models.Recipe", "Recipe")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("idRecipe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredients");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.User", b =>
@@ -146,6 +276,23 @@ namespace CulnryBookUP.Migrations
             modelBuilder.Entity("CulnryBookUP.Models.Category", b =>
                 {
                     b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Image", b =>
+                {
+                    b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Ingredients", b =>
+                {
+                    b.Navigation("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
+                {
+                    b.Navigation("CookingSteps");
+
+                    b.Navigation("RecipeIngredients");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>

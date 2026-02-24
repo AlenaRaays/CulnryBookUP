@@ -11,7 +11,7 @@ namespace CulnryBookUP.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
-        public AccountController(ApplicationDbContext context,ILogger logger)
+        public AccountController(ApplicationDbContext context,ILogger<AccountController> logger)
         {
             _context = context;
             _logger = logger;

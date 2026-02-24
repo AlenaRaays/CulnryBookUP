@@ -2,8 +2,8 @@
 using CulnryBookUP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using CulnryBookUP.Models;
+using System.Runtime.CompilerServices;
 
 namespace CulnryBookUP.Controllers
 {
@@ -25,21 +25,26 @@ namespace CulnryBookUP.Controllers
         public IActionResult Index(string userName, string login, string password, string email, string roleID)
         {
 
-            var user = new User()
+            if (!ModelState.IsValid)
             {
-                UserName = userName,
-                Login = login,
-                Password = password,
-                Email = email,
-                RoleID = 1
-            };
+                return View();
+            }
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            else
+            {
+                var user = new User()
+                {
+                    UserName = userName,
+                    Login = login,
+                    Password = password,
+                    Email = email,
+                    RoleID = 1
+                };
 
-
-            return Content($"Здравствуйте, {user.UserName}! \nВы зарегестрировались!");
-
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                return Redirect("/Account/Index");
+            }
         }
     }
 }

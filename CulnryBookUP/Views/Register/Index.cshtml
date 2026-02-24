@@ -14,11 +14,11 @@
             </div>
 
             <!-- форма регистрации с четырьмя полями: name, login, password, email -->
-            <form method="post" action="/Register/Index">
+            <form method="post" action="/Register/Index" onsubmit="check">
                 <!-- поле NAME -->
                 <div class="input-group">
                     <label class="input-label" for="name">имя</label>
-                    <input name="UserName" type="text" id="name" class="input-field" placeholder="Введите имя" required>
+                    <input name="userName" type="text" id="name" class="input-field" placeholder="Введите имя" required>
                 </div>
 
                 <!-- поле LOGIN -->
@@ -40,17 +40,52 @@
                     <input name="Email" type="email" id="email" class="input-field" placeholder="yandex или gmail, что выберешь ты?" required>
                 </div>
 
-                <!-- галочка согласия -->
-                <div class="terms-row">
-                    <label class="checkbox-wrapper">
-                        <input type="checkbox"> <span>я принимаю <a href="#" class="terms-link">условия использования</a> и <a href="#" class="terms-link">политику</a></span>
-                    </label>
-                </div>
-
                 <!-- кнопка регистрации -->
                 <button type="submit" class="register-button">создать аккаунт</button>
 
             </form>
+            <script>
+                document.querySelector('form').addEventListener('submit', 
+                function(e) {
+                    let name = document.getElementById('name').value;
+                    let login = document.getElementById('login').value;
+                    let password = document.getElementById('password').value;
+
+                    let email = document.getElementById('email').value;
+                    let atIndex = email.indexOf('@@');
+                    let localPart = email.substring(0, atIndex);
+                    let validChars = /^[a-zA-Z0-9._-]+$/;
+                    
+                    if (name.length < 3) {
+                        e.preventDefault();
+                        alert('Имя должно быть минимум 3 символа!');
+                    }
+
+                    if (login.length < 3) {
+                        e.preventDefault();
+                        alert('Логин должен быть минимум 3 символа!');
+                    }
+
+                    if (password.length < 8) {
+                        e.preventDefault();
+                        alert('Пароль должен быть минимум 8 символов');
+                    }
+
+                    if (localPart.length < 6) {
+                        e.preventDefault();
+                        alert('Почта должна содержать больше 6 символов');
+                    }
+                    if (!validChars.test(localPart)) {
+                        e.preventDefault();
+                        alert('Используйте только латинские буквы, цифры, точки, подчеркивания и дефисы')
+                    };
+                    if (localPart.startsWith('.') || localPart.endsWith('.')) {
+                        e.preventDefault();
+                        alert('Локальная часть не может начинаться или заканчиваться точкой')
+                    }
+                }
+            );
+            </script>
 
             <!-- разделитель -->
             <div class="separator">

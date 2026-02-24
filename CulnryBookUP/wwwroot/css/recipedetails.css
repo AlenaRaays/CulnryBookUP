@@ -1,0 +1,389 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #ece8e0;
+    min-height: 100vh;
+    display: relative;
+    align-items: flex-start;
+    justify-content: center;
+    background-image: radial-gradient(circle at 20% 30%, rgba(210, 180, 140, 0.08) 0px, transparent 20%), radial-gradient(circle at 90% 70%, rgba(160, 130, 90, 0.05) 0px, transparent 30%);
+}
+
+.recipe-detail-container {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* основная карточка (общий стиль) */
+.recipe-detail-card {
+    background-color: rgba(255, 251, 240, 0.9);
+    backdrop-filter: blur(2px);
+    border-radius: 32px 32px 28px 28px;
+    padding: 2.2rem 2.5rem 2.8rem;
+    box-shadow: 0 18px 35px -12px rgba(90, 60, 30, 0.25), 0 0 0 1px rgba(170, 140, 100, 0.2) inset, 0 0 0 2px rgba(255, 245, 225, 0.5) inset;
+    border: 1px solid rgba(150, 120, 80, 0.15);
+    transition: box-shadow 0.2s ease;
+}
+
+    .recipe-detail-card:hover {
+        box-shadow: 0 22px 40px -15px rgba(80, 55, 25, 0.3), 0 0 0 1px rgba(150, 115, 75, 0.25) inset, 0 0 0 2px rgba(250, 235, 200, 0.7) inset;
+    }
+
+/* шапка с навигацией "назад к списку" */
+.detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #7d8f70;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted #c2b09b;
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+    .back-link:hover {
+        color: #3b5a37;
+        border-bottom: 1px solid #7c9a6c;
+    }
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.edit-button, .delete-button {
+    background: transparent;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.edit-button {
+    background: rgba(215, 195, 170, 0.3);
+    border-color: #b8a78e;
+    color: #5f6e53;
+}
+
+    .edit-button:hover {
+        background: rgba(180, 160, 130, 0.4);
+        border-color: #8f7b64;
+    }
+
+.delete-button {
+    background: rgba(215, 170, 160, 0.2);
+    border-color: #d4a28c;
+    color: #8b5e4c;
+}
+
+    .delete-button:hover {
+        background: rgba(200, 140, 120, 0.3);
+        border-color: #b17a63;
+    }
+
+/* основная информация о рецепте */
+.recipe-title-section {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e2d4c2;
+    padding-bottom: 1.5rem;
+}
+
+.recipe-name {
+    font-size: 2.5rem;
+    font-weight: 380;
+    color: #3d5a45;
+    font-family: 'Times New Roman', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+    .recipe-name span {
+        font-size: 1.8rem;
+        opacity: 0.7;
+    }
+
+.recipe-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    margin-top: 1rem;
+    color: #6a5f51;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+}
+
+    .meta-item strong {
+        font-weight: 500;
+        color: #5b6e4b;
+        min-width: 70px;
+    }
+
+/* ===== ОБНОВЛЕННЫЙ СТИЛЬ ДЛЯ ИЗОБРАЖЕНИЙ ===== */
+/* полностью organic, с текстурой и мягкостью */
+
+.recipe-image-frame {
+    width: 100%;
+    margin-bottom: 2.5rem;
+    border-radius: 32px;
+    position: relative;
+    background: #e8dfcf; /* фон под изображение */
+    padding: 8px; /* имитация паспарту */
+    box-shadow: 0 12px 28px -12px rgba(70, 50, 25, 0.4), 0 0 0 1px rgba(190, 160, 120, 0.4) inset;
+    border: 1px solid rgba(255, 245, 220, 0.6);
+}
+
+    .recipe-image-frame img {
+        width: 100%;
+        height: auto;
+        max-height: 320px;
+        object-fit: cover; /* аккуратное заполнение */
+        object-position: center;
+        border-radius: 24px; /* мягкое скругление (органичное) */
+        display: block;
+        /* создаём эффект старой фотографии / васи-бумаги */
+        filter: sepia(0.15) contrast(0.98) brightness(1.02);
+        box-shadow: inset 0 2px 8px rgba(255, 250, 230, 0.6), 0 4px 12px rgba(80, 50, 15, 0.15);
+        /* лёгкая текстура поверх (опционально) */
+        transition: all 0.3s ease;
+    }
+
+        .recipe-image-frame img:hover {
+            filter: sepia(0) contrast(1.02) brightness(1.05);
+            transform: scale(1.01);
+        }
+
+/* подпись под фото (японский стиль) */
+.image-caption {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #8b7e6b;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+    .image-caption span {
+        background: rgba(200, 180, 150, 0.2);
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        border: 1px solid rgba(170, 140, 100, 0.3);
+    }
+
+/* альтернативный вариант, если изображения нет */
+.recipe-image-placeholder {
+    width: 100%;
+    height: 260px;
+    background: linear-gradient(145deg, #dad1c0, #ede7d8);
+    border-radius: 32px;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f8f6f;
+    font-size: 1.2rem;
+    gap: 0.8rem;
+    border: 2px dashed rgba(160, 140, 110, 0.3);
+    box-shadow: inset 0 4px 12px rgba(130, 100, 60, 0.1);
+}
+
+/* сетка для двух колонок (ингредиенты + детали) */
+.recipe-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2.2rem;
+}
+
+@media (max-width: 650px) {
+    .recipe-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* подблоки */
+.ingredients-section, .details-section {
+    background: rgba(245, 240, 230, 0.5);
+    border-radius: 28px;
+    padding: 1.5rem 1.8rem;
+    border: 1px solid rgba(170, 145, 115, 0.2);
+    backdrop-filter: blur(2px);
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #4d6445;
+    margin-bottom: 1.2rem;
+    letter-spacing: 1px;
+    border-left: 5px solid #b5aa8e;
+    padding-left: 1rem;
+    font-family: 'Times New Roman', serif;
+}
+
+/* список ингредиентов */
+.ingredients-list {
+    list-style: none;
+}
+
+    .ingredients-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #ddd0bd;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #4f4a3e;
+    }
+
+        .ingredients-list li::before {
+            content: "🌿";
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+.ingredient-amount {
+    margin-left: auto;
+    background: rgba(210, 190, 165, 0.2);
+    padding: 0.2rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: #5d6d4d;
+    white-space: nowrap;
+}
+
+/* детальная информация */
+.detail-item {
+    display: flex;
+    margin-bottom: 0.8rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed #ddd0bd;
+}
+
+.detail-label {
+    width: 110px;
+    color: #6f7864;
+    font-weight: 450;
+}
+
+.detail-value {
+    color: #3f3a32;
+}
+
+.author-note {
+    margin-top: 1.2rem;
+    font-style: italic;
+    background: rgba(200, 180, 150, 0.1);
+    padding: 0.8rem 1rem;
+    border-radius: 24px;
+    color: #756b5a;
+    border-left: 4px solid #cbb295;
+}
+
+/* пошаговые инструкции */
+.instructions-section {
+    margin-top: 2rem;
+    background: rgba(235, 225, 210, 0.3);
+    border-radius: 28px;
+    padding: 1.8rem 2rem;
+    border: 1px solid rgba(170, 145, 115, 0.2);
+}
+
+.instructions-step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px dashed #cfc0ab;
+}
+
+    .instructions-step:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+.step-number {
+    background: #b5aa8e;
+    color: #faf5e6;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    box-shadow: 0 4px 8px rgba(100, 70, 30, 0.15);
+}
+
+.step-text {
+    color: #4f4a3e;
+    line-height: 1.5;
+}
+
+/* декоративный японский акцент */
+.japanese-accent {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 2.5rem 0 0.5rem;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    color: #7c8e6f;
+}
+
+.wasabi-dot {
+    width: 6px;
+    height: 6px;
+    background: #b3a68f;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 4px;
+    opacity: 0.3;
+}
+
+/* адаптация */
+@media (max-width: 550px) {
+    .recipe-detail-card {
+        padding: 1.5rem 1.2rem 2rem;
+    }
+
+    .recipe-name {
+        font-size: 2rem;
+    }
+}

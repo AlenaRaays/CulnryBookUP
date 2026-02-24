@@ -12,6 +12,10 @@ namespace CulnryBookUP.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
+        public DbSet<RecipeIngredients> RecipeIngredients { get; set; }
+        public DbSet<CookingStep> CookingSteps { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +28,23 @@ namespace CulnryBookUP.Data
                 .HasOne(x => x.Category)
                 .WithMany(x => x.Recipes)
                 .HasForeignKey(x=>x.CategoryID);
+            modelBuilder.Entity<Recipe>()
+                .HasOne(x => x.Image)
+                .WithMany(x => x.Recipes)
+                .HasForeignKey(x=>x.ImageID);
+            modelBuilder.Entity<RecipeIngredients>()
+                .HasOne(x => x.Ingredients)
+                .WithMany(x => x.RecipeIngredients)
+                .HasForeignKey(x => x.IntgredientID);
+            modelBuilder.Entity<RecipeIngredients>()
+                .HasOne(x => x.Recipe)
+                .WithMany(x => x.RecipeIngredients)
+                .HasForeignKey(x => x.idRecipe);
+            modelBuilder.Entity<CookingStep>()
+                .HasOne(x => x.Recipe)
+                .WithMany(x => x.CookingSteps)
+                .HasForeignKey(x => x.idRecipe);
+
         }
     } 
 }

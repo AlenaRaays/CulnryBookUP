@@ -26,6 +26,9 @@ namespace CulnryBookUP.Controllers
                 recipes = recipes.Where(r => r.CategoryID == id);
             }
 
+            var userRole = HttpContext.Session.GetInt32("UserRole");
+            ViewBag.loginedID = userRole ?? 0;
+
             return View(recipes.ToList());
         }
 

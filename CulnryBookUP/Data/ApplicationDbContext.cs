@@ -23,7 +23,11 @@ namespace CulnryBookUP.Data
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role)
                 .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleID);
+                .HasForeignKey(u => u.IdRole);
+            modelBuilder.Entity<Recipe>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Recipes)
+                .HasForeignKey(x => x.IdUser);
             modelBuilder.Entity<Recipe>()
                 .HasOne(x => x.Category)
                 .WithMany(x => x.Recipes)

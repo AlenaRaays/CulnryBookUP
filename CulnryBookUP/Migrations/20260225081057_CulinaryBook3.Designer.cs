@@ -3,6 +3,7 @@ using CulnryBookUP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CulnryBookUP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225081057_CulinaryBook3")]
+    partial class CulinaryBook3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,16 +110,16 @@ namespace CulnryBookUP.Migrations
                     b.Property<int>("IdRole")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleIdRole")
+                        .HasColumnType("int");
+
                     b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("roleIdRole")
-                        .HasColumnType("int");
-
                     b.HasKey("login");
 
-                    b.HasIndex("roleIdRole");
+                    b.HasIndex("RoleIdRole");
 
                     b.ToTable("LoginModel");
                 });
@@ -129,7 +132,7 @@ namespace CulnryBookUP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRecipe"));
 
-                    b.Property<int?>("CategoryID")
+                    b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<int>("CookingTime")
@@ -215,9 +218,6 @@ namespace CulnryBookUP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdRole")
-                        .HasColumnType("int");
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -228,6 +228,9 @@ namespace CulnryBookUP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -235,7 +238,7 @@ namespace CulnryBookUP.Migrations
 
                     b.HasKey("IdUser");
 
-                    b.HasIndex("IdRole");
+                    b.HasIndex("RoleID");
 
                     b.ToTable("Users");
                 });
@@ -253,18 +256,20 @@ namespace CulnryBookUP.Migrations
 
             modelBuilder.Entity("CulnryBookUP.Models.LoginModel", b =>
                 {
-                    b.HasOne("CulnryBookUP.Models.Role", "role")
+                    b.HasOne("CulnryBookUP.Models.Role", "Role")
                         .WithMany("LoginModels")
-                        .HasForeignKey("roleIdRole");
+                        .HasForeignKey("RoleIdRole");
 
-                    b.Navigation("role");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
                 {
                     b.HasOne("CulnryBookUP.Models.Category", "Category")
                         .WithMany("Recipes")
-                        .HasForeignKey("CategoryID");
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CulnryBookUP.Models.User", "User")
                         .WithMany("Recipes")
@@ -304,7 +309,7 @@ namespace CulnryBookUP.Migrations
                 {
                     b.HasOne("CulnryBookUP.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("IdRole")
+                        .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

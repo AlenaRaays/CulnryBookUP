@@ -6,6 +6,7 @@ namespace CulnryBookUP.Models
         [Key] public int IdRole { get; set; }
         public string RoleName { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<LoginModel> LoginModels { get; set; }
 
         public Role() { }
 

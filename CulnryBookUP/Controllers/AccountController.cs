@@ -26,18 +26,23 @@ namespace CulnryBookUP.Controllers
         [HttpPost]
         public IActionResult Index(LoginModel model, string login, string password)
         {
-            var _users = _context.Users.ToList();
+            var _users = _context.Users
+                .Include(x => x.Role).ToList();
 
             User user = _users.FirstOrDefault(x => x.Login == model.login && x.Password == model.password);
 
             if (user != null && user.Login == model.login && user.Password == model.password)
             {
-                return Json(new {success = true});
+                HttpContext.Session.SetInt32("UserRole", user.IdRole);
+                HttpContext.Session.SetInt32("UserId", user.IdUser);
+
+                return Json(new { success = true });
             }
             else
             {
                 return Json(new { success = false });
             }
-        } 
+
+        }
     }
 }

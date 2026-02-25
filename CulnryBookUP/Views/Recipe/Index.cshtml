@@ -7,36 +7,39 @@
 <body>
     <div class="recipes-container">
         <div class="recipes-card">
-            <!-- шапка как на страницах входа/регистрации -->
+
             <div class="brand-organic">
                 <p>книга рецептов</p>
             </div>
 
-            <!-- панель с действием (добавить новый рецепт) -->
-@*             <div class="action-bar">
-                <button class="add-button" onclick="alert('📝 форма добавления нового рецепта')">+ новый рецепт</button>
-            </div> *@
 
             <div class="filter-sort-panel">
                 <div class="filter-group">
-                    <label for="category-filter" class="filter-label">категория</label>
-                    <div class="custom-select-wrapper">
-                        <form method="get" action="@Url.Action("Index", "Recipe")" class="filter-sort-panel">
-                            <div class="filter-group">
-                                <label for="category-filter" class="filter-label">категория</label>
-                                <div class="custom-select-wrapper">
+                    <form method="get" action="@Url.Action("Index", "Recipe")" class="filter-sort-panel">
+                        <div class="filter-group">
+                            <label for="category-filter" class="filter-label">категория</label>
+                            <div class="custom-select-wrapper">
+
+                                @if (ViewBag.loginedID == 2){
                                     <select id="category-filter" name="categoryId" class="organic-select" onchange="this.form.submit()">
-                                        <option value="">все категории</option>
-                                        <!-- !!!!!!!!!!!!!!!! -->
+                                        <option value="all">все категории</option>
+
                                         @foreach (var cat in ViewBag.Categories)
                                         {
-                                            <option value="@cat.Id" selected="@(ViewBag.CurrentCategory == cat.Id.ToString())">@cat.NameCategory</option>
+                                            <option value="@cat.IdCategory" selected="@(ViewBag.CurrentCategory == cat.IdCategory.ToString())">@cat.NameCategory</option>
                                         }
                                     </select>
-                                </div>
+                                }
+                                else if (ViewBag.loginedID == 1)
+                                {
+                                    <select id="category-filter" name="categoryId" class="organic-select" onchange="this.form.submit()">
+                                        <option value="all">все категории</option>
+                                    </select>
+                                }
+                                else { }
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -48,7 +51,6 @@
                             <th>описание</th>
                             <th>категория</th>
                             <th>время (мин)</th>
-                            <th></th> <!-- для действий -->
                         </tr>
                     </thead>
                     <tbody>

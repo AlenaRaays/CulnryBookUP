@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-namespace CulnryBookUP.Models
+﻿namespace CulnryBookUP.Models
 {
     public class LoginModel
     {
-        [Required] public string login {  get; set; }
-        [Required] public string password { get; set; }
+        public string login {  get; set; }
+        public string password { get; set; }
+        public Role? role { get; set; }
+        public int? IdRole { get; set; }
     }
 }

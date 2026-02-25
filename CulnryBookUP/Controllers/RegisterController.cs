@@ -22,12 +22,11 @@ namespace CulnryBookUP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string userName, string login, string password, string email, string roleID)
+        public IActionResult Index(string userName, string login, string password, string email)
         {
-
             if (!ModelState.IsValid)
             {
-                return View();
+                return Content(ModelState.Values.ToString());
             }
 
             else
@@ -38,12 +37,12 @@ namespace CulnryBookUP.Controllers
                     Login = login,
                     Password = password,
                     Email = email,
-                    RoleID = 1
+                    IdRole = default
                 };
 
                 _context.Users.Add(user);
                 _context.SaveChanges();
-                return Redirect("/Account/Index");
+                return Redirect("~/Account/Index");
             }
         }
     }

@@ -6,7 +6,6 @@ namespace CulnryBookUP.Models
     {
         [Key] public int IdCategory { get; set; }
         [Required] public string NameCategory { get; set; }
-
         public ICollection<Recipe> Recipes { get; set; }
         public Category() { }
 

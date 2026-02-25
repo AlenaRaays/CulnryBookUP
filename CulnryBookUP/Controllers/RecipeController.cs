@@ -2,6 +2,7 @@
 using CulnryBookUP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CulnryBookUP.Controllers
 {
@@ -13,10 +14,11 @@ namespace CulnryBookUP.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string categoryId)
+        public IActionResult Index(string categoryId, string searchQuery, string sortBy)
         {
             ViewBag.CurrentCategory = categoryId;
             ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.SortedBy = sortBy;
 
             var recipes = _context.Recipes.Include(x => x.Category).AsQueryable();
 
@@ -26,8 +28,26 @@ namespace CulnryBookUP.Controllers
                 recipes = recipes.Where(r => r.CategoryID == id);
             }
 
-            var userRole = HttpContext.Session.GetInt32("UserRole");
-            ViewBag.loginedID = userRole ?? 0;
+            if (!string.IsNullOrEmpty(searchQuery)) 
+            {
+                recipes = recipes.Where(x => x.RecipeName.StartsWith(searchQuery) || x.RecipeName.Contains(searchQuery));
+            }
+
+            if (!string.IsNullOrEmpty(sortBy) && sortBy == "asc")
+            {
+                recipes = recipes.OrderBy(x => x.RecipeName);
+            }
+            else if (!string.IsNullOrEmpty(sortBy) && sortBy == "desc")
+            {
+                recipes = recipes.OrderByDescending(x => x.RecipeName);
+            }
+
+
+                var userRole = HttpContext.Session.GetInt32("UserRole");
+            ViewBag.loginedID = userRole ?? 1;
+
+            bool isLoggined = HttpContext.Session.GetInt32("UserID") != null;
+            ViewBag.Logined = isLoggined;
 
             return View(recipes.ToList());
         }
@@ -35,6 +55,9 @@ namespace CulnryBookUP.Controllers
         [HttpGet]
         public async Task<IActionResult> RecipeDetails(int id)
         {
+            var userRole = HttpContext.Session.GetInt32("UserRole");
+            ViewBag.loginedID = userRole ?? 1;
+
             var recipeDetails = await _context.Recipes
                 .Include(x => x.Category)
                 .Include(x => x.CookingSteps)

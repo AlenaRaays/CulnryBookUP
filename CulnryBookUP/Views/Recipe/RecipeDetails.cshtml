@@ -11,10 +11,14 @@
             <!-- шапка с навигацией и действиями -->
             <div class="detail-header">
                 <a href="~/Recipe/Index" class="back-link">назад</a>
-                <div class="action-buttons">
-@*                     <button class="edit-button" onclick="alert('✎ редактировать рецепт')">✎ редактировать</button>
-                    <button class="delete-button" onclick="alert('🗑 удалить рецепт (требуется подтверждение)')">🗑 удалить</button>
- *@                </div>
+                @if (ViewBag.loginedID == 2)
+                {
+                    <div class="action-buttons">
+                         <button class="edit-button" onclick="alert('✎ редактировать рецепт')">✎ редактировать</button>
+                        <button class="delete-button" onclick="alert('🗑 удалить рецепт (требуется подтверждение)')">🗑 удалить</button>
+                    </div>
+                    
+                }
             </div>
 
             <!-- ===== ОСНОВНАЯ ИНФОРМАЦИЯ ===== -->

@@ -1,5 +1,6 @@
 ﻿@{
     @model IEnumerable<CulnryBookUP.Models.LoginModel>
+
 }
 <link rel="stylesheet" href="~/css/form.css"/>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
@@ -45,9 +46,9 @@
                         if (xhr.status === 200) {
                             
                             var response = JSON.parse(xhr.responseText);
-                            var role = JSON.parse(xhr.responseText);
 
                             if (response.success) {
+                                DataView["Logined"] = true;
                                 window.location.href = '/Recipe/Index';
                                 alert('Вход выполнен!');
                             }
@@ -55,9 +56,11 @@
                                 alert('Неправильный логин или пароль');
                                 document.getElementById('login').classList.add('input-field-error');
                                 document.getElementById('password').classList.add('input-field-error');
+                                DataView["Logined"] = false;
                             }
                         } else {
                             alert('Ошибка сервера');
+                            DataView["Logined"] = false;
                         }
                     };
 

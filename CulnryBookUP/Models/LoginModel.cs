@@ -1,5 +1,9 @@
-﻿namespace CulnryBookUP.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CulnryBookUP.Models
 {
+    [NotMapped]
     public class LoginModel
     {
         public string login {  get; set; }

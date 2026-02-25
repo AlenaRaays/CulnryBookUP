@@ -64,6 +64,29 @@ namespace CulnryBookUP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    IdUser = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdRole = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.IdUser);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_IdRole",
+                        column: x => x.IdRole,
+                        principalTable: "Roles",
+                        principalColumn: "IdRole",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Recipes",
                 columns: table => new
                 {
@@ -71,9 +94,10 @@ namespace CulnryBookUP.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RecipeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RecipeDescr = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: true),
                     CookingTime = table.Column<int>(type: "int", nullable: false),
-                    ImageID = table.Column<int>(type: "int", nullable: false)
+                    ImageID = table.Column<int>(type: "int", nullable: true),
+                    IdUser = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,37 +106,17 @@ namespace CulnryBookUP.Migrations
                         name: "FK_Recipes_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "IdCategory",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "IdCategory");
                     table.ForeignKey(
                         name: "FK_Recipes_Images_ImageID",
                         column: x => x.ImageID,
                         principalTable: "Images",
-                        principalColumn: "ImageID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    IdUser = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.IdUser);
+                        principalColumn: "ImageID");
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Roles",
-                        principalColumn: "IdRole",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Recipes_Users_IdUser",
+                        column: x => x.IdUser,
+                        principalTable: "Users",
+                        principalColumn: "IdUser");
                 });
 
             migrationBuilder.CreateTable(
@@ -184,14 +188,19 @@ namespace CulnryBookUP.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Recipes_IdUser",
+                table: "Recipes",
+                column: "IdUser");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_ImageID",
                 table: "Recipes",
                 column: "ImageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleID",
+                name: "IX_Users_IdRole",
                 table: "Users",
-                column: "RoleID");
+                column: "IdRole");
         }
 
         /// <inheritdoc />
@@ -204,22 +213,22 @@ namespace CulnryBookUP.Migrations
                 name: "RecipeIngredients");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

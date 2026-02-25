@@ -11,7 +11,7 @@ namespace CulnryBookUP.Models
         [Required(ErrorMessage = "Логин обязателен"), StringLength(50, MinimumLength = 3)] public string Login { get; set; }
         [Required(ErrorMessage = "Пароль обязателен"), StringLength(50, MinimumLength = 8)] public string Password { get; set; }
         [EmailAddress(ErrorMessage = "Некорректный email")] public string Email { get; set; }
-        [ForeignKey("IdRole")] public int IdRole { get; set; }
+        [ForeignKey("IdRole")] public int IdRole { get; set; } = 1;
         public virtual Role Role { get; set; }
         public ICollection<Recipe> Recipes { get; set; }
         public User() { }
@@ -26,7 +26,6 @@ namespace CulnryBookUP.Models
             Login = login;
             Password = password;
             Email = email;
-            IdRole = default;
         }
 
     }

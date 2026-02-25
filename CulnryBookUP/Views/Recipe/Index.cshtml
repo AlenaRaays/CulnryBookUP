@@ -14,13 +14,28 @@
 
 
             <div class="filter-sort-panel">
+                <div class="search-wrapper">
+                    <form method="get" action="@Url.Action("Index", "Recipe")" class="search-form">
+                        <div class="search-container">
+                            <input type="text"
+                                   name="searchQuery"
+                                   class="search-input"
+                                   placeholder="поиск рецептов..."
+                                   value="@Context.Request.Query["searchQuery"]"
+                                   aria-label="Поиск рецептов">
+                            <button type="submit" class="search-button">
+                                <span class="search-icon">🔍</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="filter-group">
                     <form method="get" action="@Url.Action("Index", "Recipe")" class="filter-sort-panel">
                         <div class="filter-group">
-                            <label for="category-filter" class="filter-label">категория</label>
-                            <div class="custom-select-wrapper">
-
-                                @if (ViewBag.loginedID == 2){
+                            <div>
+                                <label for="category-filter" class="filter-label">категория</label>
+                                <div class="custom-select-wrapper">
                                     <select id="category-filter" name="categoryId" class="organic-select" onchange="this.form.submit()">
                                         <option value="all">все категории</option>
 
@@ -29,15 +44,18 @@
                                             <option value="@cat.IdCategory" selected="@(ViewBag.CurrentCategory == cat.IdCategory.ToString())">@cat.NameCategory</option>
                                         }
                                     </select>
-                                }
-                                else if (ViewBag.loginedID == 1)
-                                {
-                                    <select id="category-filter" name="categoryId" class="organic-select" onchange="this.form.submit()">
-                                        <option value="all">все категории</option>
-                                    </select>
-                                }
-                                else { }
+                                </div>
                             </div>
+                            <div>
+                                <label for="category-filter" class="filter-label">сортировка</label>
+                                <div class="custom-select-wrapper">
+                                    <select id="category-filter" name="sortBy" class="organic-select" onchange="this.form.submit()">
+                                        <option value="asc" selected="@(ViewBag.SortedBy == "asc")"> по возрастанию</option>
+                                        <option value="desc" selected="@(ViewBag.SortedBy == "desc")">по убыванию</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                 </div>

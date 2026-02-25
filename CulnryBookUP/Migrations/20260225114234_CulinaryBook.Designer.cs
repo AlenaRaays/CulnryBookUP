@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CulnryBookUP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260224102816_CulinaryBook")]
+    [Migration("20260225114234_CulinaryBook")]
     partial class CulinaryBook
     {
         /// <inheritdoc />
@@ -110,13 +110,16 @@ namespace CulnryBookUP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRecipe"));
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<int>("CookingTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageID")
+                    b.Property<int?>("IdUser")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ImageID")
                         .HasColumnType("int");
 
                     b.Property<string>("RecipeDescr")
@@ -130,6 +133,8 @@ namespace CulnryBookUP.Migrations
                     b.HasKey("IdRecipe");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("IdUser");
 
                     b.HasIndex("ImageID");
 
@@ -191,24 +196,27 @@ namespace CulnryBookUP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("IdUser");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("IdRole");
 
                     b.ToTable("Users");
                 });
@@ -228,19 +236,21 @@ namespace CulnryBookUP.Migrations
                 {
                     b.HasOne("CulnryBookUP.Models.Category", "Category")
                         .WithMany("Recipes")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryID");
+
+                    b.HasOne("CulnryBookUP.Models.User", "User")
+                        .WithMany("Recipes")
+                        .HasForeignKey("IdUser");
 
                     b.HasOne("CulnryBookUP.Models.Image", "Image")
                         .WithMany("Recipes")
-                        .HasForeignKey("ImageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageID");
 
                     b.Navigation("Category");
 
                     b.Navigation("Image");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CulnryBookUP.Models.RecipeIngredients", b =>
@@ -266,7 +276,7 @@ namespace CulnryBookUP.Migrations
                 {
                     b.HasOne("CulnryBookUP.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("IdRole")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -298,6 +308,11 @@ namespace CulnryBookUP.Migrations
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("CulnryBookUP.Models.User", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

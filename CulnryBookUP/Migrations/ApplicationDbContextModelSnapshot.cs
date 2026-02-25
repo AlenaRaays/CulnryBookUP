@@ -99,28 +99,6 @@ namespace CulnryBookUP.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("CulnryBookUP.Models.LoginModel", b =>
-                {
-                    b.Property<string>("login")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("IdRole")
-                        .HasColumnType("int");
-
-                    b.Property<string>("password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("roleIdRole")
-                        .HasColumnType("int");
-
-                    b.HasKey("login");
-
-                    b.HasIndex("roleIdRole");
-
-                    b.ToTable("LoginModel");
-                });
-
             modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
                 {
                     b.Property<int>("IdRecipe")
@@ -251,15 +229,6 @@ namespace CulnryBookUP.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("CulnryBookUP.Models.LoginModel", b =>
-                {
-                    b.HasOne("CulnryBookUP.Models.Role", "role")
-                        .WithMany("LoginModels")
-                        .HasForeignKey("roleIdRole");
-
-                    b.Navigation("role");
-                });
-
             modelBuilder.Entity("CulnryBookUP.Models.Recipe", b =>
                 {
                     b.HasOne("CulnryBookUP.Models.Category", "Category")
@@ -335,8 +304,6 @@ namespace CulnryBookUP.Migrations
 
             modelBuilder.Entity("CulnryBookUP.Models.Role", b =>
                 {
-                    b.Navigation("LoginModels");
-
                     b.Navigation("Users");
                 });
 

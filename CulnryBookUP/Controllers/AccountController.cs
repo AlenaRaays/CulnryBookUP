@@ -17,9 +17,10 @@ namespace CulnryBookUP.Controllers
             _logger = logger;
         }
 
-
+        [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Logined = false;
             return View();
         }
 
@@ -34,7 +35,7 @@ namespace CulnryBookUP.Controllers
             if (user != null && user.Login == model.login && user.Password == model.password)
             {
                 HttpContext.Session.SetInt32("UserRole", user.IdRole);
-                HttpContext.Session.SetInt32("UserId", user.IdUser);
+                HttpContext.Session.SetInt32("UserID", user.IdUser);
 
                 return Json(new { success = true });
             }
@@ -43,6 +44,12 @@ namespace CulnryBookUP.Controllers
                 return Json(new { success = false });
             }
 
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

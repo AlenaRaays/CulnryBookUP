@@ -31,13 +31,12 @@ namespace CulnryBookUP.Controllers
 
             else
             {
-                var user = new User()
+                var user = new User(userName,login,password,email)
                 {
                     UserName = userName,
                     Login = login,
                     Password = password,
                     Email = email,
-                    IdRole = default
                 };
 
                 _context.Users.Add(user);

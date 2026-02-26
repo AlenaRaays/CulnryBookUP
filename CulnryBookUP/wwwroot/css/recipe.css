@@ -34,9 +34,10 @@ body {
 /* шапка как на страницах входа/регистрации */
 .brand-organic {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     margin: 1rem;
+    justify-content: space-between;
 }
 
 .icon-bowl {

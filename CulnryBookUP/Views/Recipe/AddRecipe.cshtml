@@ -1,0 +1,294 @@
+﻿@model CulnryBookUP.Models.AddRecipeViewModel
+
+<link rel="stylesheet" href="~/css/addrecipe.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+<body>
+    <div class="form-container">
+        <div class="form-card">
+            <!-- Шапка -->
+            <div class="brand-organic">
+                <h1>новый рецепт</h1>
+            </div>
+
+            <!-- Форма добавления рецепта -->
+            <form method="post" asp-action="AddRecipe" onsubmit="return validateForm()">
+
+                <!-- Основная информация -->
+                <div class="form-group">
+                    <label class="form-label" for="recipeName">название блюда *</label>
+                    <input type="text" id="recipeName" name="RecipeName" class="form-control"
+                           placeholder="введите название" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">описание</label>
+                    <textarea id="description" name="RecipeDescr" class="form-control"
+                              placeholder="кратко о блюде, его история или особенности..."></textarea>
+                </div>
+
+                <!-- Категория и время -->
+                <div class="row" style="display: flex; gap: 1rem; margin-bottom: 1.8rem;">
+                    <div style="flex: 1;">
+                        <label class="form-label" for="category">категория *</label>
+                        <div class="custom-select-wrapper">
+                            <select id="category" name="CategoryID" class="form-control" required>
+                                <option value="" disabled selected>— выберите категорию —</option>
+                                @foreach (var i in ViewBag.Categories)
+                                {
+                                    <option value="@i.IdCategory" selected="@(ViewBag.CurrentCategory == i.IdCategory.ToString())"> @i.NameCategory</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1;">
+                        <label class="form-label" for="cookingTime">время приготовления (мин) *</label>
+                        <div class="time-group">
+                            <input type="number" id="cookingTime" name="CookingTime" class="form-control time-input"
+                                   placeholder="30" min="1" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ингредиенты (динамическая секция) -->
+                <div class="dynamic-section">
+                    <div class="section-title">
+                        <span>ингредиенты</span>
+                    </div>
+
+                    <div id="ingredients-container">
+                        <div class="ingredient-row">
+                            <input type="text" name="Ingredients[0].IngredientName" class="form-control ingredient-name"
+                                   placeholder="название (например, рис)">
+                            <input type="text" name="RecipeIngredients[0].Quantity" class="form-control ingredient-amount"
+                                   placeholder="количество (200 г)">
+                            <button type="button" class="remove-btn" onclick="removeIngredient(this)" style="visibility: hidden;">✕</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-btn" onclick="addIngredient()">
+                        <span>+</span> добавить ингредиент
+                    </button>
+                </div>
+
+                <div class="dynamic-section">
+                    <div class="section-title">
+                        <span>шаги приготовления</span>
+                    </div>
+
+                    <div id="steps-container">
+                        <div class="step-row">
+                            <textarea name="CookingStep[0].StepDescription" class="form-control"
+                                      placeholder="шаг 1: ..." rows="2"></textarea>
+                            <button type="button" class="remove-btn" onclick="removeStep(this)" style="visibility: hidden;">✕</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-btn" onclick="addStep()">
+                        <span>+</span> добавить шаг
+                    </button>
+                </div>
+
+                <!-- Загрузка изображения -->
+                <div class="form-group">
+                    <label class="form-label" for="image">фото блюда</label>
+                    <input type="file" id="image" name="ImageFile" class="form-control" accept="image/*">
+                    <small style="color: #8b7e6b; margin-left: 0.8rem; font-size: 0.8rem;">
+                        рекомендуемый размер: 800x600px
+                    </small>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        сохранить рецепт
+                    </button>
+                    <a href="@Url.Action("Index", "Recipe")" class="cancel-btn">
+                        <span>✕</span> отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript для динамических полей -->
+    <script>
+        let ingredientIndex = 1;
+        let stepIndex = 1;
+
+        function addIngredient() {
+            const container = document.getElementById('ingredients-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'ingredient-row';
+            newRow.innerHTML = `
+                <input type="text" name="Ingredients[${ingredientIndex}].IngredientName" class="form-control ingredient-name"
+                       placeholder="название ингредиента">
+                <input type="text" name="RecipeIngredients[${ingredientIndex}].Quantity" class="form-control ingredient-amount"
+                       placeholder="количество">
+                <button type="button" class="remove-btn" onclick="removeIngredient(this)">✕</button>
+            `;
+            container.appendChild(newRow);
+            ingredientIndex++;
+        }
+
+                function removeIngredient(btn) {
+            const row = btn.closest('.ingredient-row');
+            if (document.querySelectorAll('.ingredient-row').length > 1) {
+                row.remove();
+                reindexIngredients();
+            } else {
+                alert('Должен быть хотя бы один ингредиент');
+            }
+        }
+
+        function reindexIngredients() {
+            const rows = document.querySelectorAll('.ingredient-row');
+            rows.forEach((row, index) => {
+                const nameInput = row.querySelector('input[name*="IngredientName"]');
+                const qtyInput = row.querySelector('input[name*="Quantity"]');
+
+                if (nameInput) {
+                    nameInput.name = `Ingredients[${index}].IngredientName`;
+                }
+                if (qtyInput) {
+                    qtyInput.name = `RecipeIngredients[${index}].Quantity`;
+                }
+            });
+            ingredientIndex = rows.length;
+        }
+
+        function addStep() {
+            const container = document.getElementById('steps-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'step-row';
+            newRow.innerHTML = `
+                <textarea name="CookingStep[${stepIndex}].StepDescription" class="form-control"
+                          placeholder="шаг ${stepIndex + 1}: ..." rows="2"></textarea>
+                <button type="button" class="remove-btn" onclick="removeStep(this)">✕</button>
+            `;
+            container.appendChild(newRow);
+            stepIndex++;
+        }
+
+        function removeStep(btn) {
+            const row = btn.closest('.step-row');
+            if (document.querySelectorAll('.step-row').length > 1) {
+                row.remove();
+            } else {
+                alert('Должен быть хотя бы один шаг');
+            }
+        }
+    </script>
+
+    <script>
+        function validateForm() {
+            // Название
+            const name = document.getElementById('recipeName').value.trim();
+            if (name.length < 3) {
+                alert('Название рецепта должно быть длиннее 3 символов');
+                return false;
+            }
+            else if (name.length > 30){
+                alert('Название рецепта должно быть короче 30 символов');
+                return false;
+            }
+            const desc = document.getElementById('RecipeDescr').value.trim();
+            if (name.length < 3) {
+                alert('Описание рецепта должно быть длиннее 3 символов');
+                return false;
+            }
+            else if (name.length > 100){
+                alert('Описание рецепта должно быть короче 100 символов');
+                return false;
+            }
+
+
+            // Категория
+            const category = document.getElementById('category').value;
+            if (!category) {
+                alert('Выберите категорию');
+                return false;
+            }
+
+            // Время
+            const time = document.getElementById('cookingTime').value;
+            if (time < 1 || time > 1440) {
+                alert('Укажите корректное время приготовления (1-1440 минут)');
+                return false;
+            }
+
+            // ===== ПРОВЕРКА ИНГРЕДИЕНТОВ =====
+            const ingredients = document.querySelectorAll('input[name*="IngredientName"]');
+            let hasIngredient = false;
+    
+            for (let i = 0; i < ingredients.length; i++) {
+                const ingValue = ingredients[i].value.trim();
+        
+                // Проверка на пустоту
+                if (ingValue) {
+                    hasIngredient = true;
+            
+                    // Проверка длины (минимум 2 символа, максимум 50)
+                    if (ingValue.length < 2) {
+                        alert(`Ингредиент "${ingValue}" слишком короткий (минимум 2 символа)`);
+                        ingredients[i].focus();
+                        return false;
+                    }
+                    if (ingValue.length > 50) {
+                        alert(`Ингредиент "${ingValue.substring(0, 20)}..." слишком длинный (максимум 50 символов)`);
+                        ingredients[i].focus();
+                        return false;
+                    }
+                }
+            }
+
+            if (!hasIngredient) {
+                alert('Добавьте хотя бы один ингредиент');
+                return false;
+            }
+
+            // ===== ПРОВЕРКА ШАГОВ =====
+            const steps = document.querySelectorAll('textarea[name*="StepDescription"]');
+            let hasStep = false;
+    
+            for (let i = 0; i < steps.length; i++) {
+                const stepValue = steps[i].value.trim();
+        
+                if (stepValue) {
+                    hasStep = true;
+            
+                    // Проверка длины шага (минимум 5 символов, максимум 500)
+                    if (stepValue.length < 5) {
+                        alert(`Шаг ${i + 1} слишком короткий (минимум 5 символов)`);
+                        steps[i].focus();
+                        return false;
+                    }
+                    if (stepValue.length > 500) {
+                        alert(`Шаг ${i + 1} слишком длинный (максимум 500 символов)`);
+                        steps[i].focus();
+                        return false;
+                    }
+                }
+            }
+
+            if (!hasStep) {
+                alert('Добавьте хотя бы один шаг приготовления');
+                return false;
+            }
+
+            // Проверка количества (если введено)
+            const quantityInputs = document.querySelectorAll('input[name*="Quantity"]');
+            for (let i = 0; i < quantityInputs.length; i++) {
+                const qty = quantityInputs[i].value.trim();
+                if (qty && qty.length > 20) {
+                    alert(`Слишком длинное описание количества (максимум 20 символов)`);
+                    quantityInputs[i].focus();
+                    return false;
+                }
+            }
+
+            return true; // всё ок
+        }
+    </script>
+</body>

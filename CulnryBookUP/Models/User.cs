@@ -7,9 +7,9 @@ namespace CulnryBookUP.Models
     public class User
     {
         [Key] public int IdUser { get; set; }
-        [Required (ErrorMessage = "Имя обязательно"), StringLength(50, MinimumLength = 3)] public string UserName { get; set; }
-        [Required(ErrorMessage = "Логин обязателен"), StringLength(50, MinimumLength = 3)] public string Login { get; set; }
-        [Required(ErrorMessage = "Пароль обязателен"), StringLength(50, MinimumLength = 8)] public string Password { get; set; }
+        [Required (ErrorMessage = "Имя обязательно"), StringLength(20, MinimumLength = 3)] public string UserName { get; set; }
+        [Required(ErrorMessage = "Логин обязателен"), StringLength(20, MinimumLength = 3)] public string Login { get; set; }
+        [Required(ErrorMessage = "Пароль обязателен"), StringLength(20, MinimumLength = 8)] public string Password { get; set; }
         [EmailAddress(ErrorMessage = "Некорректный email")] public string Email { get; set; }
         [ForeignKey("IdRole")] public int IdRole { get; set; } = 1;
         public virtual Role Role { get; set; }

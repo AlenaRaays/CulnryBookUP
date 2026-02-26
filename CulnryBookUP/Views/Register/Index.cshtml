@@ -60,21 +60,38 @@
                         e.preventDefault();
                         alert('Имя должно быть минимум 3 символа!');
                     }
+                        else if(name.length > 20){
+                            e.preventDefault();
+                            alert('Имя должно быть менее 20 символов!');
+                        }
 
                     if (login.length < 3) {
                         e.preventDefault();
                         alert('Логин должен быть минимум 3 символа!');
                     }
+                        else if(login.length > 20){
+                            e.preventDefault();
+                            alert('Логин должен быть менее 20 символов!');
+                        }
 
                     if (password.length < 8) {
                         e.preventDefault();
                         alert('Пароль должен быть минимум 8 символов');
                     }
+                        else if(password.length > 20){
+                            e.preventDefault();
+                            alert('Пароль должен быть менее 20 символов!');
+                        }
 
                     if (localPart.length < 6) {
                         e.preventDefault();
                         alert('Почта должна содержать больше 6 символов');
                     }
+                        else if(localPart.length > 30){
+                            e.preventDefault();
+                            alert('Почта должна содержать менее 30 символов!');
+                        }
+
                     if (!validChars.test(localPart)) {
                         e.preventDefault();
                         alert('Используйте только латинские буквы, цифры, точки, подчеркивания и дефисы')

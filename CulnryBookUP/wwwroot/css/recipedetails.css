@@ -63,7 +63,7 @@ body {
 
 .action-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .edit-button, .delete-button {

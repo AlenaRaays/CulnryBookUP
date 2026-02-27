@@ -10,6 +10,12 @@
 
             <div class="brand-organic">
                 <p>книга рецептов</p>
+                @if (ViewBag.loginedID == 2)
+                {
+                    <div class="action-buttons">
+                        <button class="add-button" onclick="location.href='@Url.Action("AddRecipe","Recipe")'">добавить рецепт</button>
+                    </div>
+                }
             </div>
 
 
@@ -29,6 +35,8 @@
                         </div>
                     </form>
                 </div>
+
+                
 
                 <div class="filter-group">
                     <form method="get" action="@Url.Action("Index", "Recipe")" class="filter-sort-panel">

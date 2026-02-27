@@ -22,14 +22,13 @@ namespace CulnryBookUP.Models
         public virtual ICollection<CookingStep> CookingSteps { get; set; }
         public Recipe() { }
 
-        public Recipe(string recipeName, string recipeDescr, int? categoryID, int cookingTime, int imageID, int idUser)
+        public Recipe(string recipeName, string recipeDescr, int? categoryID, int cookingTime, int userId)
         {
             RecipeName = recipeName;
             RecipeDescr = recipeDescr;
             CategoryID = categoryID;
             CookingTime = cookingTime;
-            ImageID = imageID;
-            IdUser = idUser;
+            IdUser = userId;
         }
     }
 }
